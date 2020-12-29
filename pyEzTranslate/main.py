@@ -13,20 +13,6 @@ URL="https://www.coursera.org/?authMode=login"
 with open('config.yml') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
-
-options = webdriver.ChromeOptions()
-
-# headless 옵션 설정
-#options.add_argument('headless')
-#options.add_argument("no-sandbox")
-
-# 브라우저 윈도우 사이즈
-options.add_argument('window-size=1920x1080')
-
-# 사람처럼 보이게 하는 옵션들
-options.add_argument("disable-gpu")   # 가속 사용 x
-options.add_argument("lang=ko_KR")    # 가짜 플러그인 탑재
-
 email = config['UserName']
 password = config['Password']
 
@@ -34,12 +20,12 @@ print(email)
 print(password)
 
 
-driver=webdriver.Chrome("C:/chromedriver/chromedriver.exe", options=options)
-driver.get("https://www.coursera.org/?authMode=login&r=/sso/gtc%3Freturn_to=https://translate-coursera.org/new_gtc/app/")
+driver=webdriver.Chrome("C:/Program Files/chromedriver/chromedriver.exe")
+driver.get("https://www.coursera.org/?authMode=login")
 time.sleep(3)
 
 # Click GMail login
-driver.find_element_by_xpath("//section[@class='_1oagnho']/button[@data-track-component='continue_with_google_auth_btn']").click()
+driver.find_element_by_xpath("//*[@id='authentication-box-content']/div/div[1]/div[1]/button/span").click()
 
 time.sleep(3)
 driver.switch_to.window(driver.window_handles[1])
@@ -106,13 +92,9 @@ driver.get_window_position(driver.window_handles[1])
 i=1
 html=requests(driver.current_url)
 soup=bs(html,'html.parser')
-soup.
-while rotate==False:
-    try:
-        rotate=driver.find_element_by_xpath("//*[@id='js-scroll-0-0-1']/div/div[1]/div/div/div/div/div/div/div/div/span["+i+"]")
-    except e:
-        rotate==True
-    i+=1
+
+rotate=driver.find_element_by_xpath("//*[@id='js-scroll-0-0-1']/div/div[1]/div/div/div/div/div/div/div/div/span["+i+"]")
+rotate==True
 
 
 ## Translate the scraped sentence

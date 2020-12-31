@@ -2,6 +2,7 @@ import os
 import requests
 from requests_file import FileAdapter
 from bs4 import BeautifulSoup as bs
+from google_trans_new import google_translator
 
 #Local Test session
 s = requests.Session()
@@ -22,3 +23,6 @@ for i in range(30):
         if element=="":
             break
     print(sum)
+    translator = google_translator()
+    result = translator.translate(sum, lang_tgt='ko')
+    print(result)

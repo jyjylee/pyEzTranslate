@@ -1,5 +1,3 @@
-
-from googletrans import Translator
 import requests
 import time
 from bs4 import BeautifulSoup as bs
@@ -13,6 +11,12 @@ URL="https://www.coursera.org/?authMode=login"
 with open('config.yml') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
+with open('xpathlist.yml') as f:
+    xpath= yaml.load(f, loader=yaml.FullLoader)
+
+with open('web.yml') as f:
+    web= yaml.load(f, loader=yaml.FullLoader)
+
 email = config['UserName']
 password = config['Password']
 
@@ -20,12 +24,12 @@ print(email)
 print(password)
 
 
-driver=webdriver.Chrome("C:/Program Files/chromedriver/chromedriver.exe")
-driver.get("https://www.coursera.org/?authMode=login")
+driver=webdriver.Chrome(config['chromedriverPath'])
+driver.get(web['coursera_login'])
 time.sleep(3)
 
 # Click GMail login
-driver.find_element_by_xpath("//*[@id='authentication-box-content']/div/div[1]/div[1]/button/span").click()
+driver.find_element_by_xpath(xpath['gmail_login_button']).click()
 
 time.sleep(3)
 driver.switch_to.window(driver.window_handles[1])
@@ -33,13 +37,13 @@ driver.get_window_position(driver.window_handles[1])
 
 email_field = driver.find_element_by_name("identifier")
 email_field.send_keys(email)
-email_next_btn=driver.find_element_by_xpath("//button[@class='VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc qIypjc TrZEUc']")
+email_next_btn=driver.find_element_by_xpath(xpath['gmail_next_button'])
 email_next_btn.click()
 time.sleep(2)
 
 password_field = driver.find_element_by_name("password")
 password_field.send_keys(password)
-password_next_btn=driver.find_element_by_xpath("//button[@class='VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc qIypjc TrZEUc']")
+password_next_btn=driver.find_element_by_xpath(xpath['gmail_next_button'])
 password_next_btn.click()
 time.sleep(5)
 
@@ -47,21 +51,21 @@ driver.switch_to.window(driver.window_handles[0])
 driver.get_window_position(driver.window_handles[0])
 time.sleep(5)
 
-driver.get("https://translate-coursera.org/new_gtc/app/")
-get_in_btn=driver.find_element_by_xpath("//a[@class='btn btn-sm btn-danger btn-block signin']")
+driver.get(web['translate_coursera'])
+get_in_btn=driver.find_element_by_xpath(xpath['get_in_button'])
 get_in_btn.click()
 
-driver.get("https://translate-coursera.org/new_gtc/app/#/app/courses")
+driver.get(web['translate_coursera_course'])
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 wait = WebDriverWait(driver, 999)
-element = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/span/div/div/div[2]/div[2]/span/div[3]/div/div/div/div[2]/div[1]/div[2]/input")))
+element = wait.until(EC.element_to_be_clickable((By.XPATH, xpath['translate_search_edit'])))
 
 class_name="Deep Neural Networks with PyTorch"
-search=driver.find_element_by_xpath("/html/body/span/div/div/div[2]/div[2]/span/div[3]/div/div/div/div[2]/div[1]/div[2]/input")
+search=driver.find_element_by_xpath(xpath['translate_search_edit'])
 search.send_keys(class_name)
 time.sleep(2)
 driver.find_element_by_xpath("/html/body/span/div/div/div[2]/div[2]/span/div[3]/div/div/div/div[2]/div[2]/table/tbody/tr/td[8]/a").click()

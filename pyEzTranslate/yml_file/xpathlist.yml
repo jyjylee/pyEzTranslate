@@ -1,0 +1,4 @@
+gmail_login_button: //*[@id='authentication-box-content']/div/div[1]/div[1]/button/span
+gmail_next_button: //button[@class='VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc qIypjc TrZEUc']
+get_in_button: //a[@class='btn btn-sm btn-danger btn-block signin']
+translate_search_edit: /html/body/span/div/div/div[2]/div[2]/span/div[3]/div/div/div/div[2]/div[1]/div[2]/input
